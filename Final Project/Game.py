@@ -3,6 +3,9 @@ import random
 import math
 from pygame import mixer
 
+# this is hector 
+
+
 # Initialize the pygame
 pygame.init()
 
