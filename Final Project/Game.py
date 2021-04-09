@@ -14,7 +14,7 @@ background = pygame.image.load('spacebg.png')
 
 # Background Sound
 mixer.music.load('background.wav')
-mixer.music.set_volume(0.5)
+mixer.music.set_volume(0.04)
 mixer.music.play(-1)
 
 
@@ -80,11 +80,11 @@ def game_over_text():
 
 
 def player(x, y):
-    screen.blit(playerImg, (x, y))  # draws the play at set coord
+    screen.blit(playerImg, (x, y))  # draws the player at set coord
 
 
 def tie(x, y, i):
-    screen.blit(tieImg[i], (x, y))  # draws the play at set coord
+    screen.blit(tieImg[i], (x, y))  # draws the enemy at set coord
 
 
 def fire_laser(x, y):
@@ -94,7 +94,7 @@ def fire_laser(x, y):
 
 
 def isCollision(tieX, tieY, laserX, laserY):
-    distance = math.sqrt(math.pow(tieX - laserX, 2) + (math.pow(tieY - laserY, 2)))  # Distance Formula
+    distance = math.sqrt(math.pow(tieX - laserX, 2) + (math.pow(tieY - laserY, 2)))  # Distance Formula = square root of (x2-x1)^2 + (y2-y1)^2
     if distance < 30:
         return True
     else:
@@ -167,14 +167,14 @@ while running:
     for i in range(num_of_tie):
 
         # Game Over
-        player_collide = collide(tieX[i], tieY[i], playerX, playerY)
+        player_collide = collide(tieX[i], tieY[i], playerX, playerY) #checks to see if player collides with enemy
         if tieY[i] > 440 or player_collide:
             for j in range(num_of_tie):
                 tieY[j] = 2000
             game_over_text()
             break
 
-        tieX[i] += tieX_change[i]
+        tieX[i] += tieX_change[i] #Emeny movement and once it hits side walls enemy moves down
         if tieX[i] <= 0:
             tieX_change[i] = 0.3
             tieY[i] += tieY_change[i]
@@ -182,13 +182,13 @@ while running:
             tieX_change[i] = -0.3
             tieY[i] += tieY_change[i]
 
-        # Collision
+        # Collision with enemy and laser
         collision = isCollision(tieX[i], tieY[i], laserX, laserY)
         if collision:
             explosion_Sound = mixer.Sound('explosion.wav')
-            explosion_Sound.play()
+            explosion_Sound.play() #plays the explosion sound if laser hits enemy 
             laserY = 480
-            laser_state = "ready"
+            laser_state = "ready" # If laser hits enemy, laser resets to ready state
             score_value += 1
             tieX[i] = random.randint(0, 735)
             tieY[i] = random.randint(50, 150)
@@ -199,7 +199,7 @@ while running:
         laserY = 480
         laser_state = "ready"
 
-    if laser_state is "fire":
+    if laser_state is "fire": # If laser = fire then it moves up the screen until it hits enemy or top of screen then will go back to ready state
         fire_laser(laserX, laserY)
         laserY -= laserY_change
 
