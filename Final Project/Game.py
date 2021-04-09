@@ -3,9 +3,6 @@ import random
 import math
 from pygame import mixer
 
-# this is hector 
-
-
 # Initialize the pygame
 pygame.init()
 
@@ -17,7 +14,9 @@ background = pygame.image.load('spacebg.png')
 
 # Background Sound
 mixer.music.load('background.wav')
+mixer.music.set_volume(0.5)
 mixer.music.play(-1)
+
 
 # Changes the Title and Icon
 pygame.display.set_caption("Group's Space Invaders")
