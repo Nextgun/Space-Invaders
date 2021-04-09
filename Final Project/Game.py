@@ -20,7 +20,7 @@ mixer.music.load('background.wav')
 mixer.music.play(-1)
 
 # Changes the Title and Icon
-pygame.display.set_caption("Derik's Space Invaders")
+pygame.display.set_caption("Group's Space Invaders")
 icon = pygame.image.load('alien.png')
 pygame.display.set_icon(icon)
 
