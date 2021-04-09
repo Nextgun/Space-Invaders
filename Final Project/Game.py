@@ -2,6 +2,7 @@ import pygame
 import random
 import math
 from pygame import mixer
+#this is hector change 4 in visual studio
 
 # Initialize the pygame
 pygame.init()
