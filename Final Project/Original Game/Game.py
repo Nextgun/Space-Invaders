@@ -11,7 +11,7 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 
 # Background
-background = pygame.image.load('Final Project\graphic_files\spacebg.png')
+background = pygame.image.load('spacebg.png')
 
 # Background Sound
 mixer.music.load('background.wav')
@@ -69,7 +69,6 @@ textY = 10
 # Game Over Text
 over_font = pygame.font.Font('freesansbold.ttf', 84)
 
-
 def show_score(x, y):
     score = font.render("Score :" + str(score_value), True, (255, 255, 255))
     screen.blit(score, (x, y))
@@ -109,7 +108,7 @@ def collide(tieX, tieY, playerX, playerY):
     else:
         return False
 
-
+ 
 # Main Game Loop
 running = True
 while running:
@@ -141,6 +140,8 @@ while running:
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 playerX_change = 0
+       
+#****************************************************************************************************************************************************************************
 
         # key keystroke is pressed check to see if it is up or down
         if event.type == pygame.KEYDOWN:
