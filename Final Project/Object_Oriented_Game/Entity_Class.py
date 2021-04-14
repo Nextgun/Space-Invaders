@@ -2,8 +2,10 @@
 # use to create sub-classes in player and enemy
 
 
-class entity(object):
-    def __init__(self, image, health, entityX, entityY, entityX_change, entityY_change, *args, **kwargs):
+class Entity(object):
+    #   all of the attributes for entities
+    def __init__(self, image, health, entityX, entityY, 
+                 entityX_change, entityY_change, *args, **kwargs):
         self.image = pygame.image.load(image)
         self.health = health
         self.entityX = entityX

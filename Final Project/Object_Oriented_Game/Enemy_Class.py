@@ -1,7 +1,11 @@
 #object oriented programming
-class enemy(object):
-    def __init__(self, health, *args,  **kwargs):
-        self.health = health
+class Enemy(Entity):
+
+    def __init__(self, *args,  **kwargs):
+        #   initializes the entity attributes
+        Entity.__init__(self, image, health, entityX, entityY, 
+                        entityX_change, entityY_change)
+
         # Enemy
         tieImg = []
         tieX = []
