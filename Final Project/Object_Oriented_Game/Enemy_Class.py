@@ -1,3 +1,14 @@
+
+#
+#   this code is working
+#   but i need to check the logic for it
+#
+
+
+
+
+from Entity_Class import *
+
 #object oriented programming
 class Enemy(Entity):
 
@@ -13,20 +24,30 @@ class Enemy(Entity):
         tieX_change = []
         tieY_change = []
         num_of_tie = 6
+    
+    # not sure what this code does
+    #
+    # return super().__init__(*args, **kwargs)
+    #
 
-    return super().__init__(*args, **kwargs)
-    def thecollosion:
-        #collision code
+    def SpawnEnemy():
+        #   write code that spawns the enemies in
         pass
 
 
 
 
-#how the enemy spawns
-for i in range(num_of_tie):
-    tieImg.append(pygame.image.load('tie.png'))
-    tieX.append(random.randint(0, 735))  # had enemy tie randomly spawn in different places on the x axis
-    tieY.append(random.randint(50,
-                               150))  # had enemy tie randomly spawn in different places on the y axis between set parameters
-    tieX_change.append(0.3)
-    tieY_change.append(20)
+
+#   old code for spawning enemies, rewrite in class
+#
+##how the enemy spawns
+#for i in range(num_of_tie):
+#    tieImg.append(pygame.image.load('tie.png'))
+#    tieX.append(random.randint(0, 735))  # had enemy tie randomly spawn in different places on the x axis
+#    tieY.append(random.randint(50,
+#                               150))  # had enemy tie randomly spawn in different places on the y axis between set parameters
+#    tieX_change.append(0.3)
+#    tieY_change.append(20)
+
+
+print("it worked")

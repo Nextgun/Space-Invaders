@@ -3,6 +3,7 @@
 
 
 class Entity(object):
+
     #   all of the attributes for entities
     def __init__(self, image, health, entityX, entityY, 
                  entityX_change, entityY_change, *args, **kwargs):
@@ -19,7 +20,7 @@ class Entity(object):
 
 
         return super().__init__(*args, **kwargs)
-    def collision():
+    def Collision():
         pass
     def laser():
         # Laser
@@ -40,8 +41,8 @@ class Entity(object):
         #   rewrite to draw the entity         #
         #                                      #
         #**************************************#
-def player(x, y):
-    screen.blit(playerImg, (x, y))  # draws the player at set coord
+#def DrawPlayer(x, y):
+#    screen.blit(playerImg, (x, y))  # draws the player at set coord
 
 
 def tie(x, y, i):

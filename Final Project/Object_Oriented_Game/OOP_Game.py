@@ -3,6 +3,11 @@ import random
 import math
 from pygame import mixer
 
+                            # i dont know if i need to import these or not
+#import our classes
+#from Enemy_Class import *
+#from Player_Class import *
+#from Draw_Function import *
 
 # Initialize the pygame
 pygame.init()
@@ -12,7 +17,7 @@ pygame.init()
 #player1 = player()  
 #player2 = player()
 
-tiefighter = enemy()
+tiefighter = Enemy()
 
 
 

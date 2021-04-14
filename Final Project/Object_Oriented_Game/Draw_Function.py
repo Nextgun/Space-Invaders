@@ -1,3 +1,4 @@
+import pygame
 
 
 
@@ -6,7 +7,7 @@ def draw():
     screen = pygame.display.set_mode((800, 600))    # create the screen
 
     # Background
-    background = pygame.image.load('C:\Hector School\Del Mar Sring 2021 Semester\Programming Fundamentals 1\C++ Code\GitHub Collab\Final Project\graphic_files\spacebg.png')
+    background = pygame.image.load('spacebg.png')
 
     # Background Sound
     mixer.music.load('background.wav')
@@ -21,13 +22,16 @@ def draw():
 # Score
 
 score_value = 0
-font = pygame.font.Font('freesansbold.ttf', 28)
+
+#   missing ttf file, uncomment once added
+#font = pygame.font.Font('freesansbold.ttf', 28)
 
 textX = 10
 textY = 10
 
 # Game Over Text
-over_font = pygame.font.Font('freesansbold.ttf', 84)
+#   missing ttf file, uncomment once added
+#over_font = pygame.font.Font('freesansbold.ttf', 84)
 
 
 def show_score(x, y):
