@@ -101,13 +101,6 @@ def isCollision(tieX, tieY, laserX, laserY):
         return False
 
 
-def collide(tieX, tieY, playerX, playerY):
-    player_distance = math.sqrt(math.pow(tieX - playerX, 2) + (math.pow(tieY - playerY, 2)))
-    if player_distance < 30:
-        return True
-    else:
-        return False
-
  
 # Main Game Loop
 running = True

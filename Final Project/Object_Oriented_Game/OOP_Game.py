@@ -1,52 +1,64 @@
+
+                            # i dont know if i need to import these or not
+#import our classes
+from Enemy_Class import *
+from Player_Class import *
+from Draw_Function import *
+
 import pygame
 import random
 import math
 from pygame import mixer
 
-                            # i dont know if i need to import these or not
-#import our classes
-#from Enemy_Class import *
-#from Player_Class import *
-#from Draw_Function import *
+
+
 
 # Initialize the pygame
 pygame.init()
 
 
 
-#player1 = player()  
-#player2 = player()
+player_info = ['plane.png', 3, 370, 480, 0, 0]
 
-tiefighter = Enemy()
+#   creates player 1
+player1 =Player(1,player_info)
+
+#   creates player 2
+player2 = Player(2,player_info)
+
+
+enemy_info = ['tie.png', 3, 370, 180, 0, 0]
+
+#   creates enemy object tiefighter
+tiefighter = Enemy(enemy_info)
 
 
 
 
 
+            # hector
+            #   for main game loop i want
+            # 1  need to create the player
+            # 2  i want the draw function to start drawing
+            #
 
 # Main Game Loop
 running = True
 while running:
-    screen.fill((0, 0, 0))  # Changes the screen color or background
-    screen.blit(background, (0, 0))  # Background image
-
+    # event type loop (everything in here is checking the event type)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
+           
+            
 
        
-#****************************************************************************************************************************************************************************
-
-
-        #**************************************#
-        #                                      #
+#*******#**************************************#*******************************************************************
         #   checks keyboard input              #
         #   need to check the logic            #
         #                                      #
         #**************************************#
-
-
 
               # key keystroke is pressed check to see if it is left or right
         if event.type == pygame.KEYDOWN:
@@ -66,13 +78,8 @@ while running:
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 playerX_change = 0
-
-
        
-#****************************************************************************************************************************************************************************
-
-
-
+#**************************************************************************************************************************************************************************
 
         # key keystroke is pressed check to see if it is up or down
         if event.type == pygame.KEYDOWN:
@@ -83,23 +90,27 @@ while running:
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 playerY_change = 0
-    # Checking player boundaries
-    playerX += playerX_change
-    playerY += playerY_change
 
-    if playerX <= 0:
-        playerX = 0
-    elif playerX >= 736:
-        playerX = 736
-    if playerY <= 0:
-        playerY = 0
-    elif playerY >= 536:
-        playerY = 536
+    
+    # everything in here is in the outside thee for loop (outside of the event type but inside the while)
+
+    # Check Player Boundary
+    player1.CheckBoundary()
+
+
+
+
+
 
     # Checking enemy boundaries
     for i in range(num_of_tie):
 
         # Game Over
+
+        
+       
+
+
         player_collide = collide(tieX[i], tieY[i], playerX, playerY) #checks to see if player collides with enemy
         if tieY[i] > 440 or player_collide:
             for j in range(num_of_tie):
@@ -125,6 +136,11 @@ while running:
             score_value += 1
             tieX[i] = random.randint(0, 735)
             tieY[i] = random.randint(50, 150)
+
+
+
+
+
 
         tie(tieX[i], tieY[i], i)
     # Laser movement

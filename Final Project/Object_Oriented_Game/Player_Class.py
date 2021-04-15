@@ -13,10 +13,10 @@ from Entity_Class import *
             #   player is a subclass of the entity class
 class Player(Entity):
     #   initializes the player, and player number
-    def __init__(self,player_num, *args, **kwargs):
+    def __init__(self,player_num, list, *args, **kwargs):
         #   initializes the entity attributes
-   #     Entity.__init__(self, image, health, entityX, entityY, 
-    #                    entityX_change, entityY_change)
+        Entity.__init__(self, list[0], list[1], list[2], list[3], 
+                        list[4], list[5])
         #   player number (1,2,3,4)
         self.player_num = player_num
 
@@ -25,6 +25,18 @@ class Player(Entity):
         msg = "This is player" + str(self.player_num)
         return msg
     
+    def CheckBoundary(self):
+        # Checking player boundaries
+        entityX += entityX_change
+        entityY += entityY_change
+        
+        if entityX <= 0:        entityX = 0
+        elif entityX >= 736:    entityX = 736
+        if entityY <= 0:        entityY = 0
+        elif entityY >= 536:    entityY = 536
+        
+
+
     #   fire laser for player using laser state
     def fire_laser(x, y):
         global laser_state
@@ -43,14 +55,5 @@ class Player(Entity):
 
 
 #   list with the arguments to be passed to the player class
-player_info = ['plane.png', 3, 370, 480, 0, 0]
-
-#   creates player 1
-player1 =Player(1,player_info)
-
-#   creates player 2
-player2 = Player(2,player_info)
 
 
-print(player1)
-print(player1.PlayerLaser())

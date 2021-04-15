@@ -12,10 +12,10 @@ from Entity_Class import *
 #object oriented programming
 class Enemy(Entity):
 
-    def __init__(self, *args,  **kwargs):
+    def __init__(self, list, *args,  **kwargs):
         #   initializes the entity attributes
-        Entity.__init__(self, image, health, entityX, entityY, 
-                        entityX_change, entityY_change)
+        Entity.__init__(self, list[0], list[1], list[2], list[3], 
+                        list[4], list[5])
 
         # Enemy
         tieImg = []
