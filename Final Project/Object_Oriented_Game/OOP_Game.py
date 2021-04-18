@@ -1,5 +1,3 @@
-
-                            # i dont know if i need to import these or not
 #import our classes
 from Enemy_Class import *
 from Player_Class import *
@@ -10,37 +8,20 @@ import random
 import math
 from pygame import mixer
 
-
-
-
-# Initialize the pygame
-pygame.init()
-
-
-
-player_info = ['plane.png', 3, 370, 480, 0, 0]
-
 #   creates player 1
 player1 =Player(1,player_info)
 
-#   creates player 2
-player2 = Player(2,player_info)
-
-
-enemy_info = ['tie.png', 3, 370, 180, 0, 0]
-
 #   creates enemy object tiefighter
 tiefighter = Enemy(enemy_info)
-
-
-
-
 
             # hector
             #   for main game loop i want
             # 1  need to create the player
             # 2  i want the draw function to start drawing
             #
+
+# Initialize the pygame
+pygame.init()
 
 # Main Game Loop
 running = True
@@ -50,10 +31,6 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-           
-            
-
-       
 #*******#**************************************#*******************************************************************
         #   checks keyboard input              #
         #   need to check the logic            #
@@ -91,25 +68,7 @@ while running:
             if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 playerY_change = 0
 
-    
     # everything in here is in the outside thee for loop (outside of the event type but inside the while)
-
-    # Check Player Boundary
-    player1.CheckBoundary()
-
-
-
-
-
-
-    # Checking enemy boundaries
-    for i in range(num_of_tie):
-
-        # Game Over
-
-        
-       
-
 
         player_collide = collide(tieX[i], tieY[i], playerX, playerY) #checks to see if player collides with enemy
         if tieY[i] > 440 or player_collide:

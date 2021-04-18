@@ -5,19 +5,18 @@ from pygame import mixer
 
 
 # Initialize the pygame
-pygame.init()
+#pygame.init()
 
 # create the screen
-screen = pygame.display.set_mode((800, 600))
+#screen = pygame.display.set_mode((800, 600))
 
 # Background
-background = pygame.image.load('spacebg.png')
+#background = pygame.image.load('spacebg.png')
 
 # Background Sound
-mixer.music.load('background.wav')
-mixer.music.set_volume(0.04)
-mixer.music.play(-1)
-
+#mixer.music.load('background.wav')
+#mixer.music.set_volume(0.04)
+#mixer.music.play(-1)
 
 # Changes the Title and Icon
 pygame.display.set_caption("Group's Space Invaders")
@@ -37,7 +36,7 @@ tieX = []
 tieY = []
 tieX_change = []
 tieY_change = []
-num_of_tie = 6
+num_of_tie = 6      # derik what is this, nvm i figured it out, its number of enemies
 
 for i in range(num_of_tie):
     tieImg.append(pygame.image.load('tie.png'))

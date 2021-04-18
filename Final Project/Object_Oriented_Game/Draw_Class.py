@@ -1,30 +1,29 @@
-
-
-
-#
-#   new idea
-#   make Draw a class 
 #   have function for drawing background, text, players, and enemys, etc
 #   call each functions when needed
-#
-#
 
 import pygame
 from pygame import mixer
 
-# Initialize the pygame
-pygame.init()
+
+# draw score
+# draw enemy
+# draw player
+# refresh background
+
 
 
 class Draw(object):
-    def filler(self):
-        pass
-    def Screen():
-        screen = pygame.display.set_mode((800, 600))    # create the screen
+    def __init__(self, width=800, height=600, font_type='FreeSansBold.ttf'):
+        self.screen = pygame.display.set_mode((width, height)) # create the screen
+        
         screen.fill((0, 0, 0))  # Changes the screen color or background
         
-        # Background
-        background = pygame.image.load('spacebg.png')
+        self.font = pygame.font.Font(font_type, 28)
+
+    def Screen_info():
+       
+        
+        background = pygame.image.load('spacebg.png') # Background
         screen.blit(background, (0, 0))  # Background image
 
         # Background Sound
@@ -55,6 +54,25 @@ class Draw(object):
     def game_over_text():
         over_text = over_font.render("GAME OVER!", True, (10, 240, 13))
         screen.blit(over_text, (170, 300))
+
+    def draw_player(self, screen):
+        Player.draw(self, screen)
+
+    def draw_enemies(): # draw enemies in draw class
+        for enemy_list:
+            Enemy.draw(self, screen)
+            pass
+        pass
+
+def tie(x, y, i):
+    screen.blit(tieImg[i], (x, y))  # draws the enemy at set coord
+    pass
+
+
+def update_screen():
+    Draw.draw_player()
+    Draw.draw_enemies()
+
 
 
 print("i work and draw things")
