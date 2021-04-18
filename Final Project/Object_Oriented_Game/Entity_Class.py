@@ -24,6 +24,12 @@ class Entity(object):
     def draw(self, screen):
         screen.blit(self.image, self.entityX, self.entityY) # draws our entity
 
+
+
+
+
+
+        # create a class forr laser, and make a method to call the laser class
     def laser():
         # create function to fire laser
         # Ready - you cant see the laser on the screen
@@ -46,28 +52,29 @@ class Entity(object):
                     laser_state = "fire"
                     screen.blit(laserImg, (x + 16, y + 10))
 
-        #   this code is working
-#   but i need to check the logic for it
 
-#   player is a subclass of the entity class
-class Player(Entity):
+#  HumanPlayer is a subclass of the entity class
+class HumanPlayer(Entity):
     #   initializes the player, and player number
     def __init__(self, entityX, entityY): # *args, **kwargs):
         #   initializes the entity attributes
-        super().__init__(self, 'plane.png', health=3, entityX, entityY, entityX_change=0, entityY_change=0, size=30)
+        super().__init__(self, image='plane.png', health=3, entityX, entityY, entityX_change=0, entityY_change=0, size=30)
+        
+
+
+                # rewrite a check boundary so player cannot go off screen
         # Checking player boundaries
         entityX += entityX_change
         entityY += entityY_change
         
-        if entityX <= 0:        entityX = 0
-        elif entityX >= 736:    entityX = 736
-        if entityY <= 0:        entityY = 0
-        elif entityY >= 536:    entityY = 536
-    
-    #   something
-    def SpawnPlayer():
-        #   add code here that spawns the players in
-        pass
+        if entityX <= 0:        
+            entityX = 0
+        elif entityX >= 736:    
+            entityX = 736
+        if entityY <= 0:        
+            entityY = 0
+        elif entityY >= 536:    
+            entityY = 536
 
 #   list with the arguments to be passed to the player class
 player_info = [370, 480]

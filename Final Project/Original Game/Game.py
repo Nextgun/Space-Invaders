@@ -114,8 +114,13 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+         # key keystroke is pressed check to see if it is up or down
         # key keystroke is pressed check to see if it is left or right
         if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                playerY_change = -0.3
+            if event.key == pygame.K_DOWN:
+                playerY_change = 0.3
             if event.key == pygame.K_LEFT:
                 playerX_change = -0.3
             if event.key == pygame.K_RIGHT:
@@ -129,21 +134,17 @@ while running:
                     laserY = playerY
                     fire_laser(laserX, laserY)
 
+        # if no key is being pressed down, player does not move
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 playerX_change = 0
+            if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                playerY_change = 0
        
 #****************************************************************************************************************************************************************************
 
-        # key keystroke is pressed check to see if it is up or down
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                playerY_change = -0.3
-            if event.key == pygame.K_DOWN:
-                playerY_change = 0.3
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                playerY_change = 0
+       
+            
     # Checking player boundaries
     playerX += playerX_change
     playerY += playerY_change
@@ -168,6 +169,8 @@ while running:
             game_over_text()
             break
 
+
+            # throw movement into entity class
         tieX[i] += tieX_change[i] #Emeny movement and once it hits side walls enemy moves down
         if tieX[i] <= 0:
             tieX_change[i] = 0.3
