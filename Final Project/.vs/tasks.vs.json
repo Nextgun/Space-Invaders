@@ -5,6 +5,11 @@
       "taskLabel": "task-OOP_Game",
       "appliesTo": "OOP_Game",
       "type": "launch"
+    },
+    {
+      "taskLabel": "task-spacebg",
+      "appliesTo": "Object_Oriented_Game/assets/spacebg.png",
+      "type": "launch"
     }
   ]
 }

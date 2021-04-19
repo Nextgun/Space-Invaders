@@ -1,11 +1,13 @@
 import pygame
+from OOP_Game_2 import Game
+
 #   this code is working
 #   but i need to check the logic for it
 
 # use to create sub-classes in player and enemy
 
 class Entity(object):
-    def __init__(self, image, health, entityX, entityY, entityX_change, entityY_change, size): #   all of the attributes for entities
+    def __init__(self, entityX, entityY, image, health,  entityX_change, entityY_change, size): #   all of the attributes for entities
         self.image = pygame.image.load(image)
         self.health = health
         self.entityX = entityX
@@ -21,11 +23,7 @@ class Entity(object):
                 return True
         return False
     
-    def movement(self):
-        self.entityX += self.entityX_change
-        self.entityY += self.entityY_change
-
-    def enemy_movement(self):
+    def enemy_movement(self): # moves enemies
         self.entityX += self.entityX_change
         if self.entityX <= 0:
             self.entityX_change *= -1
@@ -42,10 +40,46 @@ class Player(Entity):
     #   initializes the player, and player number
     def __init__(self, entityX, entityY): # *args, **kwargs):
         #   initializes the entity attributes
-        super().__init__('assets/plane.png', 3, entityX, entityY, 0, 0, 30)
+        super().__init__(entityX, entityY, image='assets/plane.png', health=3,  entityX_change=0, entityY_change=0, size=30)
+        
+    def movement(self): # moves player
+        self.entityX += self.entityX_change
+        self.entityY += self.entityY_change
+
 
 class Enemy(Entity):
-    def __init__(self, entityX, entityY, *args,  **kwargs):
+    def __init__(self, entityX, entityY): # *args,  **kwargs):
         #   initializes the entity attributes
-        Entity.__init__(self, 'assets/tie.png', 1, entityX, entityY, 0.3, 20, 50)
+        Entity.__init__(self, entityX, entityY, image='assets/tie.png', health=1,  entityX_change=0.3, entityY_change=20, size=50)
 
+class Laser(Entity):
+    def __init__(self, entityX, entityY):
+        super().__init__(entityX, entityY, image='assets/laser.png', health=0, entityX_change=0, entityY_change=1, size=25)
+        self.laser_state = True
+        
+        #self.entityX = self.player1.entityX
+        #self.entityY = self.player1.entityY
+
+    def laser_draw(self, screen):
+        screen.blit(self.image, (self.entityX, self.entityY))
+
+    def laser_move(self):
+        self.entityY -= self.entityY_change
+
+
+    def shoot_laser(self, playerX, playerY):
+        self.laser1.shoot_laser(self.player1.entityX, self.player1.entityY)
+        pass
+            
+
+    # laser is shooting once
+    # set laser state to true either when collides with enemey or when reaches toop of screen
+    # super class the laser to use the collision method
+
+    # if laser collides with enemy = pop enemy from enemylist
+    # if enemy collides with player = game over
+        
+
+print("i worked")
+
+                       

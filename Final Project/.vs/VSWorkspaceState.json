@@ -1,10 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\graphic_files",
     "\\Object_Oriented_Game",
+    "\\Object_Oriented_Game\\assets",
     "\\Original Game"
   ],
-  "SelectedNode": "\\Original Game\\Game.py",
+  "SelectedNode": "\\Object_Oriented_Game\\Draw_Class.py",
   "PreviewInSolutionExplorer": false
 }

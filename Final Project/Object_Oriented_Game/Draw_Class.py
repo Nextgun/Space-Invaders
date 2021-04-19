@@ -55,14 +55,6 @@ class Draw(object):
         over_text = over_font.render("GAME OVER!", True, (10, 240, 13))
         screen.blit(over_text, (170, 300))
 
-    def draw_player(self, screen):
-        Player.draw(self, screen)
-
-    def draw_enemies(): # draw enemies in draw class
-        for enemy_list:
-            Enemy.draw(self, screen)
-            pass
-        pass
 
 def tie(x, y, i):
     screen.blit(tieImg[i], (x, y))  # draws the enemy at set coord
