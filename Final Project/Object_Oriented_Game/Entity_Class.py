@@ -16,7 +16,6 @@ class Entity(object):
         self.entityY_change = entityY_change
         self.size = size
 
-    #    return super().__init__(*args, **kwargs)
     def detect_collision(self, other):
         if (other.entityX >= self.entityX and other.entityX < (self.entityX + self.size)) or (self.entityX >= other.entityX and self.entityX < (other.entityX + other.size)):
             if (other.entityY >= self.entityY and other.entityY < (self.entityY + self.size)) or (self.entityY >= other.entityY and self.entityY < (other.entityY +other.size)):
@@ -38,7 +37,7 @@ class Entity(object):
 #   player is a subclass of the entity class
 class Player(Entity):
     #   initializes the player, and player number
-    def __init__(self, entityX, entityY): # *args, **kwargs):
+    def __init__(self, entityX, entityY): 
         #   initializes the entity attributes
         super().__init__(entityX, entityY, image='assets/plane.png', health=3,  entityX_change=0, entityY_change=0, size=30)
         
@@ -46,9 +45,8 @@ class Player(Entity):
         self.entityX += self.entityX_change
         self.entityY += self.entityY_change
 
-
 class Enemy(Entity):
-    def __init__(self, entityX, entityY): # *args,  **kwargs):
+    def __init__(self, entityX, entityY): 
         #   initializes the entity attributes
         Entity.__init__(self, entityX, entityY, image='assets/tie.png', health=1,  entityX_change=0.3, entityY_change=20, size=50)
 
@@ -57,27 +55,22 @@ class Laser(Entity):
         super().__init__(entityX, entityY, image='assets/laser.png', health=0, entityX_change=0, entityY_change=1, size=25)
         self.laser_state = True
         
-        #self.entityX = self.player1.entityX
-        #self.entityY = self.player1.entityY
-
     def laser_draw(self, screen):
         screen.blit(self.image, (self.entityX, self.entityY))
 
     def laser_move(self):
         self.entityY -= self.entityY_change
 
-
     def shoot_laser(self, playerX, playerY):
         self.laser1.shoot_laser(self.player1.entityX, self.player1.entityY)
         pass
             
-
-    # laser is shooting once
     
-    # super class the laser to use the collision method
-
-    # if laser collides with enemy = pop enemy from enemylist
-    # if enemy collides with player = game over
+    # if laser collides with enemy = pop enemy from enemylist 
+    # (enemy = self, laser (laser is now a list of many lasers) = other)
+    # 
+    # if enemy collides with player = game over                 
+    # (enemy = self, player = other)
         
 
 print("i worked")
