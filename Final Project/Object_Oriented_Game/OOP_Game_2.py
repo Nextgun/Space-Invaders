@@ -28,7 +28,6 @@ class Game:
         self.enemy_Ties = []
         self.enemy_creation()
         self.laser_list = []
-        #self.laser1 = Entity_Class.Laser(self.player1.entityX, self.player1.entityY)
         
         self.run = True # bool for main loop to start
         
@@ -42,10 +41,7 @@ class Game:
             enemies.draw(self.screen)
         for lasers in self.laser_list: # draws each laser
             lasers.draw(self.screen)
-        #self.laser1.laser_draw(self.screen)
-        #self.laser2.draw(self.screen)
         
-
     # checks for the keypresses
     def event_manager(self):
         for event in pygame.event.get():
@@ -61,7 +57,7 @@ class Game:
                 if event.key == pygame.K_DOWN:
                     self.player1.entityY_change = 0.3
                 if event.key == pygame.K_SPACE:
-                    self.laser_list.append(Entity_Class.Laser(self.player1.entityX, self.player1.entityY))                    #self.laser2 = Entity_Class.Laser(self.player1.entityX,self.player1.entityY)
+                    self.laser_list.append(Entity_Class.Laser(self.player1.entityX, self.player1.entityY))                  
                      
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
@@ -78,8 +74,7 @@ class Game:
         for enemies in self.enemy_Ties: # updates enemy movement for each enemy
             enemies.enemy_movement()
         for lasers in self.laser_list:
-            lasers.laser_draw(self.screen)
-        #self.laser1.laser_move()
+            lasers.laser_move()
 
             
     def mainLoop(self):

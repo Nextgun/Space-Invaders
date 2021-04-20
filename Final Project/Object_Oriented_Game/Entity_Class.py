@@ -73,7 +73,7 @@ class Laser(Entity):
             
 
     # laser is shooting once
-    # set laser state to true either when collides with enemey or when reaches toop of screen
+    
     # super class the laser to use the collision method
 
     # if laser collides with enemy = pop enemy from enemylist
