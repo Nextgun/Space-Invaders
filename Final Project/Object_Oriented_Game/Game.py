@@ -1,207 +1,152 @@
+import Entity_Class
 import pygame
+from threading import Timer
 import random
 import math
 from pygame import mixer
+from Draw_Class import Create_Screens
+
+# todo list
+# fix movement bug (jack)
+# collision, done (hector)
+#
+# need to create different "screens" to draw, and change screens depending on game state
+# i.e. game over = screen3, game = screen2, title screen = screen1
 
 
-# Initialize the pygame
-pygame.init()
+# do while # do the gaem loop # while the character is alive
+# enemies killed # sum number of enemies
+# average the scores
 
-# create the screen
-screen = pygame.display.set_mode((800, 600))
+#  game class should hold all the game logic,
+#   ie spawing enemies etc, movement checks, no drawing
+class Game:
+    def __init__(self):
+        pygame.init()
 
-# Background
-background = pygame.image.load('spacebg.png')
+        #screen and background and font
+        self.screen = pygame.display.set_mode((800, 600))
+        self.background = pygame.image.load('assets/spacebg.png')
+        self.font = pygame.font.Font('assets/FreeSansBold.ttf', 28)
 
-# Background Sound
-mixer.music.load('background.wav')
-mixer.music.set_volume(0.04)
-mixer.music.play(-1)
+        # Background Sound
+        mixer.music.load('assets/background.wav')
+        mixer.music.set_volume(0.04)
+        mixer.music.play(-1)
 
-# Changes the Title and Icon
-pygame.display.set_caption("Group's Space Invaders")
-icon = pygame.image.load('alien.png')
-pygame.display.set_icon(icon)
+        # Changes the Title and Icon
+        pygame.display.set_caption("Group's Space Invaders")
+        icon = pygame.image.load('assets/alien.png')
+        pygame.display.set_icon(icon)
 
-# player
-playerImg = pygame.image.load('plane.png')
-playerX = 370
-playerY = 480
-playerX_change = 0
-playerY_change = 0
+        #object creation
+        self.player_list = [] # i want to throw players in a list as well, to have players 1, 2, 3, 4
+        self.player1 = Entity_Class.Player(370, 480)
+        self.enemy_list = []
+        self.enemy_creation()
+        self.laser_list = []
+        
+        self.run = True # bool for main loop to start
+        
+        self.mainLoop() # runs the main loop function
 
-# Enemy
-tieImg = []
-tieX = []
-tieY = []
-tieX_change = []
-tieY_change = []
-num_of_tie = 6      # derik what is this, nvm i figured it out, its number of enemies
+        laser_state = True
+    
+    def read_file():
+        # read a file into the game
+        list = []
+        pass
+   
+    def write_file():
+        # write the new score into file
+        pass
+        
+        
+    # trying to get a delay to work for laser
+    def thelaserstate():
+        laser_state = True
+    
+    # checks for the keypresses
+    def event_manager(self):
 
-for i in range(num_of_tie):
-    tieImg.append(pygame.image.load('tie.png'))
-    tieX.append(random.randint(0, 735))  # had enemy tie randomly spawn in different places on the x axis
-    tieY.append(random.randint(50,
-                               150))  # had enemy tie randomly spawn in different places on the y axis between set parameters
-    tieX_change.append(0.3)
-    tieY_change.append(20)
-
-# Laser
-
-# Ready - you cant see the laser on the screen
-# Fire - the laser is currently moving
-laserImg = pygame.image.load('laser.png')
-laserX = 0
-laserY = 480
-laserX_change = 0
-laserY_change = .5
-laser_state = "ready"
-
-# Score
-
-score_value = 0
-font = pygame.font.Font('freesansbold.ttf', 28)
-
-textX = 10
-textY = 10
-
-# Game Over Text
-over_font = pygame.font.Font('freesansbold.ttf', 84)
-
-def show_score(x, y):
-    score = font.render("Score :" + str(score_value), True, (255, 255, 255))
-    screen.blit(score, (x, y))
+        # trying to get a delay to work for laser
+        laser_state = True
 
 
-def game_over_text():
-    over_text = over_font.render("GAME OVER!", True, (10, 240, 13))
-    screen.blit(over_text, (170, 300))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    self.player1.entityX_change = -0.7
+                if event.key == pygame.K_RIGHT:
+                    self.player1.entityX_change = 0.7
+                if event.key == pygame.K_UP:
+                    self.player1.entityY_change = -0.7
+                if event.key == pygame.K_DOWN:
+                    self.player1.entityY_change = 0.7
+                if event.key == pygame.K_SPACE:
+
+                    self.laser_list.append(Entity_Class.Laser(self.player1.entityX, self.player1.entityY))
+
+                    # i want to cry
+                    #if laser_state == True:
+                        #(self.laser_list.append(Entity_Class.Laser(self.player1.entityX, self.player1.entityY)))
+                        #laser_state = False
+                        #L = Timer(2.0,thelaserstate)              
+                        #L.start() # want to add delay between laser to prevent spam, but delays whole game
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT:
+                    self.player1.entityX_change = 0
+                if event.key == pygame.K_RIGHT:
+                    self.player1.entityX_change = 0
+                if event.key == pygame.K_UP:
+                    self.player1.entityY_change = 0
+                if event.key == pygame.K_DOWN:
+                    self.player1.entityY_change = 0
+        if self.enemy_list == 0:
+            self.enemy_creation()
+
+    def update_Movement(self):
+        self.player1.movement() # updates player movement
+        for enemies in self.enemy_list: # updates enemy movement for each enemy
+            enemies.enemy_movement()
+        for lasers in self.laser_list:
+            lasers.laser_move()
+
+    def collision_detection(self):
+        for The_enemy in self.enemy_list: # collision: between enemies and lasers
+            for The_laser in self.laser_list:
+                if (The_enemy.detect_collision(The_laser)):
+                    self.enemy_list.remove(The_enemy)
+                    self.laser_list.remove(The_laser)
+        for The_enemy in self.enemy_list:
+            if (The_enemy.detect_collision(self.player1)):
+                self.game_over() # need to create game over function
+                
+    def game_over(self):
+        print("you lose")
+        
+
+    def mainLoop(self):
+        while self.run:
+            self.collision_detection()
+            Create_Screens.draw_all(self, self.background, self.player1, self.screen, self.enemy_list, self.laser_list)
+            self.event_manager()
+            self.update_Movement()
+            pygame.display.flip()
+        pygame.quit()
 
 
-def player(x, y):
-    screen.blit(playerImg, (x, y))  # draws the player at set coord
+    def enemy_creation(self):
+        for i in range(12):
+            self.enemy_list.append(Entity_Class.Enemy(random.randint(0, 735), random.randint(50, 150)))
+            
+            
 
+#creates obj of class to run game
+if __name__ == "__main__":
+    game1 = Game()
 
-def tie(x, y, i):
-    screen.blit(tieImg[i], (x, y))  # draws the enemy at set coord
+   # the_game  = idk
 
-
-def fire_laser(x, y):
-    global laser_state
-    laser_state = "fire"
-    screen.blit(laserImg, (x + 16, y + 10))
-
-
-def isCollision(tieX, tieY, laserX, laserY):
-    distance = math.sqrt(math.pow(tieX - laserX, 2) + (math.pow(tieY - laserY, 2)))  # Distance Formula = square root of (x2-x1)^2 + (y2-y1)^2
-    if distance < 30:
-        return True
-    else:
-        return False
-
-def collide(tieX, tieY, playerX, playerY):
-    player_distance = math.sqrt(math.pow(tieX - playerX, 2) + (math.pow(tieY - playerY, 2)))
-    if player_distance < 30:
-        return True
-    else:
-        return False
- 
-# Main Game Loop
-running = True
-while running:
-
-    # Changes the screen color or background
-    screen.fill((0, 0, 0))
-    # Background image
-    screen.blit(background, (0, 0))
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-        # key keystroke is pressed check to see if it is left or right
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                playerX_change = -0.3
-            if event.key == pygame.K_RIGHT:
-                playerX_change = 0.3
-            if event.key == pygame.K_SPACE:
-                if laser_state is "ready":
-                    laser_Sound = mixer.Sound('laser.wav')
-                    laser_Sound.play()
-                    # Gets the current x and y coord of your ship
-                    laserX = playerX
-                    laserY = playerY
-                    fire_laser(laserX, laserY)
-
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                playerX_change = 0
-       
-#****************************************************************************************************************************************************************************
-
-        # key keystroke is pressed check to see if it is up or down
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                playerY_change = -0.3
-            if event.key == pygame.K_DOWN:
-                playerY_change = 0.3
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                playerY_change = 0
-    # Checking player boundaries
-    playerX += playerX_change
-    playerY += playerY_change
-
-    if playerX <= 0:
-        playerX = 0
-    elif playerX >= 736:
-        playerX = 736
-    if playerY <= 0:
-        playerY = 0
-    elif playerY >= 536:
-        playerY = 536
-
-    # Checking enemy boundaries
-    for i in range(num_of_tie):
-
-        # Game Over
-        player_collide = collide(tieX[i], tieY[i], playerX, playerY) #checks to see if player collides with enemy
-        if tieY[i] > 440 or player_collide:
-            for j in range(num_of_tie):
-                tieY[j] = 2000
-            game_over_text()
-            break
-
-        tieX[i] += tieX_change[i] #Emeny movement and once it hits side walls enemy moves down
-        if tieX[i] <= 0:
-            tieX_change[i] = 0.3
-            tieY[i] += tieY_change[i]
-        elif tieX[i] >= 736:
-            tieX_change[i] = -0.3
-            tieY[i] += tieY_change[i]
-
-        # Collision with enemy and laser
-        collision = isCollision(tieX[i], tieY[i], laserX, laserY)
-        if collision:
-            explosion_Sound = mixer.Sound('explosion.wav')
-            explosion_Sound.play() #plays the explosion sound if laser hits enemy 
-            laserY = 480
-            laser_state = "ready" # If laser hits enemy, laser resets to ready state
-            score_value += 1
-            tieX[i] = random.randint(0, 735)
-            tieY[i] = random.randint(50, 150)
-
-        tie(tieX[i], tieY[i], i)
-    # Laser movement
-    if laserY <= 0:
-        laserY = 480
-        laser_state = "ready"
-
-    if laser_state is "fire": # If laser = fire then it moves up the screen until it hits enemy or top of screen then will go back to ready state
-        fire_laser(laserX, laserY)
-        laserY -= laserY_change
-
-    player(playerX, playerY)  # needs to be here so that it is drawn on top of the screen
-    show_score(textX, textY)
-    pygame.display.update()

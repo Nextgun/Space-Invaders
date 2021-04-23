@@ -3,7 +3,7 @@
 
 import pygame
 from pygame import mixer
-
+#from game import Game # import game the object not game the class
 
 # draw score
 # draw enemy
@@ -12,29 +12,28 @@ from pygame import mixer
 
 
 
-class Draw(object):
+class Create_Screens(object):
     def __init__(self, width=800, height=600, font_type='FreeSansBold.ttf'):
-        self.screen = pygame.display.set_mode((width, height)) # create the screen
-        
-        screen.fill((0, 0, 0))  # Changes the screen color or background
-        
-        self.font = pygame.font.Font(font_type, 28)
+        pass
 
-    def Screen_info():
-       
-        
-        background = pygame.image.load('spacebg.png') # Background
-        screen.blit(background, (0, 0))  # Background image
 
-        # Background Sound
-        mixer.music.load('background.wav')
-        mixer.music.set_volume(0.04)
-        mixer.music.play(-1)
-    
-        # Changes the Title and Icon
-        pygame.display.set_caption("Group's Space Invaders")
-        icon = pygame.image.load('alien.png')
-        pygame.display.set_icon(icon)
+        # draws background and entities!
+    def draw_all(game, background, el_player, screen, enemy_list, laser_list):
+        game.screen.blit(background, (0, 0)) # draws screen
+        el_player.draw(screen) # draws player using the entity draw method
+        for enemies in enemy_list: # draws each enemy 
+            enemies.draw(screen)
+        for lasers in laser_list: # draws each laser
+            lasers.draw(screen)
+
+
+    def Title_Screen():
+        pass
+    def Game_Screen():
+        #self.draw_all():
+        pass
+    def GameOver_Screen():
+        pass
 
         # Score
     def Score():
@@ -55,16 +54,3 @@ class Draw(object):
         over_text = over_font.render("GAME OVER!", True, (10, 240, 13))
         screen.blit(over_text, (170, 300))
 
-
-def tie(x, y, i):
-    screen.blit(tieImg[i], (x, y))  # draws the enemy at set coord
-    pass
-
-
-def update_screen():
-    Draw.draw_player()
-    Draw.draw_enemies()
-
-
-
-print("i work and draw things")

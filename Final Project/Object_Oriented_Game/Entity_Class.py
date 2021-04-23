@@ -1,5 +1,5 @@
 import pygame
-from OOP_Game_2 import Game
+from game import Game
 
 #   this code is working
 #   but i need to check the logic for it
