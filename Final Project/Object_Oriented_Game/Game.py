@@ -39,31 +39,35 @@ class Game:
         icon = pygame.image.load('assets/alien.png')
         pygame.display.set_icon(icon)
 
+
         #object creation
         self.player_list = [] # i want to throw players in a list as well, to have players 1, 2, 3, 4
         self.player1 = Entity_Class.Player(370, 480)
         self.enemy_list = []
         self.enemy_creation()
         self.laser_list = []
-        
+
+        self.movement_list = [False, False, False, False] # [left, right, up, down] if true move in direction :)
+        self.player_speed = 0.7
+
         self.run = True # bool for main loop to start
+        laser_state = True
         
         self.mainLoop() # runs the main loop function
 
-        laser_state = True
     
-    def read_file():
+    def read_file(self):
         # read a file into the game
         list = []
         pass
    
-    def write_file():
+    def write_file(self):
         # write the new score into file
         pass
         
         
     # trying to get a delay to work for laser
-    def thelaserstate():
+    def thelaserstate(self):
         laser_state = True
     
     # checks for the keypresses
@@ -78,13 +82,13 @@ class Game:
                 self.run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    self.player1.entityX_change = -0.7
+                    self.movement_list[0] = True
                 if event.key == pygame.K_RIGHT:
-                    self.player1.entityX_change = 0.7
+                    self.movement_list[1] = True
                 if event.key == pygame.K_UP:
-                    self.player1.entityY_change = -0.7
+                    self.movement_list[2] = True
                 if event.key == pygame.K_DOWN:
-                    self.player1.entityY_change = 0.7
+                    self.movement_list[3] = True
                 if event.key == pygame.K_SPACE:
 
                     self.laser_list.append(Entity_Class.Laser(self.player1.entityX, self.player1.entityY))
@@ -97,17 +101,44 @@ class Game:
                         #L.start() # want to add delay between laser to prevent spam, but delays whole game
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
-                    self.player1.entityX_change = 0
+                    self.movement_list[0] = False
                 if event.key == pygame.K_RIGHT:
-                    self.player1.entityX_change = 0
+                    self.movement_list[1] = False
                 if event.key == pygame.K_UP:
-                    self.player1.entityY_change = 0
+                    self.movement_list[2] = False
                 if event.key == pygame.K_DOWN:
-                    self.player1.entityY_change = 0
+                    self.movement_list[3] = False
         if self.enemy_list == 0:
             self.enemy_creation()
 
     def update_Movement(self):
+        #fixed movement bug, pretty ugly code tho..
+        if self.movement_list[0]:
+            self.player1.entityX_change = -self.player_speed
+        elif not self.movement_list[0]:
+            self.player1.entityX_change = 0
+
+        if self.movement_list[1]:
+            self.player1.entityX_change = self.player_speed
+        elif not self.movement_list[1] and not self.movement_list[0]:
+            self.player1.entityX_change = 0
+
+        if self.movement_list[0] and self.movement_list[1]:
+            self.player1.entityX_change = 0
+
+        if self.movement_list[2]:
+            self.player1.entityY_change = -self.player_speed
+        elif not self.movement_list[2]:
+            self.player1.entityY_change = 0
+
+        if self.movement_list[3]:
+            self.player1.entityY_change = self.player_speed
+        elif not self.movement_list[3] and not self.movement_list[2]:
+            self.player1.entityY_change = 0
+
+        if self.movement_list[2] and self.movement_list[3]:
+            self.player1.entityY_change = 0
+
         self.player1.movement() # updates player movement
         for enemies in self.enemy_list: # updates enemy movement for each enemy
             enemies.enemy_movement()
