@@ -3,8 +3,12 @@ import pygame
 from threading import Timer
 import random
 import math
-from pygame import mixer
+#from pygame import mixer
 from Draw_Class import Create_Screens
+
+# idea
+# the entities can update themselfs wiht an update method that is called in __init__
+
 
 # todo list
 # fix movement bug (jack)
@@ -17,27 +21,12 @@ from Draw_Class import Create_Screens
 # do while # do the gaem loop # while the character is alive
 # enemies killed # sum number of enemies
 # average the scores
-
 #  game class should hold all the game logic,
 #   ie spawing enemies etc, movement checks, no drawing
 class Game:
     def __init__(self):
         pygame.init()
-
-        #screen and background and font
         self.screen = pygame.display.set_mode((800, 600))
-        self.background = pygame.image.load('assets/spacebg.png')
-        self.font = pygame.font.Font('assets/FreeSansBold.ttf', 28)
-
-        # Background Sound
-        mixer.music.load('assets/background.wav')
-        mixer.music.set_volume(0.04)
-        mixer.music.play(-1)
-
-        # Changes the Title and Icon
-        pygame.display.set_caption("Group's Space Invaders")
-        icon = pygame.image.load('assets/alien.png')
-        pygame.display.set_icon(icon)
 
 
         #object creation
@@ -50,10 +39,15 @@ class Game:
         self.movement_list = [False, False, False, False] # [left, right, up, down] if true move in direction :)
         self.player_speed = 0.7
 
+        #self.the_screen = Create_Screens()
+
         self.run = True # bool for main loop to start
         laser_state = True
         
         self.mainLoop() # runs the main loop function
+
+
+       
 
     
     def read_file(self):
@@ -81,17 +75,37 @@ class Game:
             if event.type == pygame.QUIT:
                 self.run = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                     self.movement_list[0] = True
-                if event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     self.movement_list[1] = True
-                if event.key == pygame.K_UP:
+                if event.key == pygame.K_UP or event.key == pygame.K_w:
                     self.movement_list[2] = True
-                if event.key == pygame.K_DOWN:
+                if event.key == pygame.K_DOWN or event.key == pygame.K_s:
                     self.movement_list[3] = True
                 if event.key == pygame.K_SPACE:
 
+
+
+      #              def enemy_creation2(self):
+      #  while True:
+      #      for i in range(12):
+      #          self.enemy_list.append(Entity_Class.Enemy(random.randint(0, 735), random.randint(50, 150)))
+      #      if (self.enemy_list != 0):
+       #         return False
+
+
+
+
                     self.laser_list.append(Entity_Class.Laser(self.player1.entityX, self.player1.entityY))
+
+
+
+                    #do while
+                    # make laser a bool while pressed = true while true fire
+                    # if unpressed = false , while false (dont fire) end loop
+
+
 
                     # i want to cry
                     #if laser_state == True:
@@ -100,19 +114,20 @@ class Game:
                         #L = Timer(2.0,thelaserstate)              
                         #L.start() # want to add delay between laser to prevent spam, but delays whole game
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                     self.movement_list[0] = False
-                if event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     self.movement_list[1] = False
-                if event.key == pygame.K_UP:
+                if event.key == pygame.K_UP or event.key == pygame.K_w:
                     self.movement_list[2] = False
-                if event.key == pygame.K_DOWN:
+                if event.key == pygame.K_DOWN or event.key == pygame.K_s:
                     self.movement_list[3] = False
         if self.enemy_list == 0:
             self.enemy_creation()
 
     def update_Movement(self):
         #fixed movement bug, pretty ugly code tho..
+        # lets try to pretty it up later, but for now it works (hector)
         if self.movement_list[0]:
             self.player1.entityX_change = -self.player_speed
         elif not self.movement_list[0]:
@@ -151,6 +166,7 @@ class Game:
                 if (The_enemy.detect_collision(The_laser)):
                     self.enemy_list.remove(The_enemy)
                     self.laser_list.remove(The_laser)
+                    # Draw_Class.score = self.score + 1
         for The_enemy in self.enemy_list:
             if (The_enemy.detect_collision(self.player1)):
                 self.game_over() # need to create game over function
@@ -158,21 +174,24 @@ class Game:
     def game_over(self):
         print("you lose")
         
+        # i want enemy creation to be in a do while loop, do (create enemies), while (enemy list == 0)
+    def enemy_creation(self):
+        for i in range(12):
+            self.enemy_list.append(Entity_Class.Enemy(random.randint(0, 735), random.randint(50, 150)))
+
 
     def mainLoop(self):
         while self.run:
             self.collision_detection()
-            Create_Screens.draw_all(self, self.background, self.player1, self.screen, self.enemy_list, self.laser_list)
+
             self.event_manager()
             self.update_Movement()
             pygame.display.flip()
         pygame.quit()
 
+      
 
-    def enemy_creation(self):
-        for i in range(12):
-            self.enemy_list.append(Entity_Class.Enemy(random.randint(0, 735), random.randint(50, 150)))
-            
+    
             
 
 #creates obj of class to run game
