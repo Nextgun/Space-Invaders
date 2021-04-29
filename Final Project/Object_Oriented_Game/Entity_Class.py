@@ -1,5 +1,5 @@
 import pygame
-from Game import Game
+from game import *
 
 #   this code is working
 #   but i need to check the logic for it
