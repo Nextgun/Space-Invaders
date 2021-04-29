@@ -44,6 +44,15 @@ class Player(Entity):
     def movement(self): # moves player
         self.entityX += self.entityX_change
         self.entityY += self.entityY_change
+        if self.entityX <= 0:
+            self.entityX = 0
+        elif self.entityX >= 736:
+            self.entityX = 736
+        if self.entityY <= 0:
+            self.entityY = 0
+        elif self.entityY >= 536:
+            self.entityY = 536
+
 
 class Enemy(Entity):
     def __init__(self, entityX, entityY): 
@@ -60,17 +69,15 @@ class Laser(Entity):
 
     def laser_move(self):
         self.entityY -= self.entityY_change
+        
+
+
 
     def shoot_laser(self, playerX, playerY):
         self.laser1.shoot_laser(self.player1.entityX, self.player1.entityY)
         pass
             
     
-    # if laser collides with enemy = pop enemy from enemylist 
-    # (enemy = self, laser (laser is now a list of many lasers) = other)
-    # 
-    # if enemy collides with player = game over                 
-    # (enemy = self, player = other)
         
 
 print("i worked")

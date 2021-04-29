@@ -41,6 +41,8 @@ class Game:
 
 
         #object creation
+        self.score = 0
+
         self.player_list = [] # i want to throw players in a list as well, to have players 1, 2, 3, 4
         self.player1 = Entity_Class.Player(370, 480)
         self.enemy_list = []
@@ -48,7 +50,7 @@ class Game:
         self.laser_list = []
 
         self.movement_list = [False, False, False, False] # [left, right, up, down] if true move in direction :)
-        self.player_speed = 0.7
+        self.player_speed = 2
 
         self.run = True # bool for main loop to start
         laser_state = True
@@ -90,7 +92,7 @@ class Game:
                 if event.key == pygame.K_DOWN:
                     self.movement_list[3] = True
                 if event.key == pygame.K_SPACE:
-
+                    
                     self.laser_list.append(Entity_Class.Laser(self.player1.entityX, self.player1.entityY))
 
                     # i want to cry
@@ -108,8 +110,6 @@ class Game:
                     self.movement_list[2] = False
                 if event.key == pygame.K_DOWN:
                     self.movement_list[3] = False
-        if self.enemy_list == 0:
-            self.enemy_creation()
 
     def update_Movement(self):
         #fixed movement bug, pretty ugly code tho..
@@ -148,23 +148,34 @@ class Game:
     def collision_detection(self):
         for The_enemy in self.enemy_list: # collision: between enemies and lasers
             for The_laser in self.laser_list:
-                if (The_enemy.detect_collision(The_laser)):
-                    self.enemy_list.remove(The_enemy)
-                    self.laser_list.remove(The_laser)
+                if The_enemy in self.enemy_list: # check in the enemy exists in enemy list
+                    if (The_enemy.detect_collision(The_laser)):
+                        self.enemy_list.remove(The_enemy)
+                        self.laser_list.remove(The_laser)
+                        self.score = self.score + 1
         for The_enemy in self.enemy_list:
             if (The_enemy.detect_collision(self.player1)):
                 self.game_over() # need to create game over function
                 
     def game_over(self):
-        print("you lose")
+        Create_Screens.scoreboard(self.score, self.font, self.screen)
         
 
     def mainLoop(self):
         while self.run:
             self.collision_detection()
             Create_Screens.draw_all(self, self.background, self.player1, self.screen, self.enemy_list, self.laser_list)
+            Create_Screens.show_score(self.score, self.font, self.screen)
             self.event_manager()
             self.update_Movement()
+            
+            if not self.enemy_list: # checks if enemy list is empty
+                # write some code here to either spawn more enemies or make them harder to kill or both.
+                self.enemy_creation() # creates new enemies
+            for The_laser in self.laser_list:
+                if The_laser.entityY < 0:
+                    self.laser_list.remove(The_laser)
+
             pygame.display.flip()
         pygame.quit()
 
@@ -174,10 +185,41 @@ class Game:
             self.enemy_list.append(Entity_Class.Enemy(random.randint(0, 735), random.randint(50, 150)))
             
             
-
 #creates obj of class to run game
 if __name__ == "__main__":
     game1 = Game()
 
    # the_game  = idk
+
+
+# while
+#   title screen code
+#   if player presses play
+#       break out of loop
+    def Title_Screen():
+        pass
+
+# while game == play
+#   game loop
+#   if game == over
+#       break
+
+
+#       write score into score data
+
+
+
+
+# while game == over
+#   draw "you lose"
+#   "your score was ", score
+#   leaderboard is 
+#   l = open()
+#   for score in l:
+#       print(score)
+#   highscore is
+#   print(highscore)
+    def GameOver_Screen():
+        pass
+
 
