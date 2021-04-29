@@ -140,26 +140,36 @@ class Game:
         for lasers in self.laser_list:
             lasers.laser_move()
 
+    def collision_detection(self):
+        for The_enemy in self.enemy_list:
+            for The_laser in self.laser_list:
                 if The_enemy in self.enemy_list: # check in the enemy exists in enemy list
                     if (The_enemy.detect_collision(The_laser)):
                         self.enemy_list.remove(The_enemy)
                         self.laser_list.remove(The_laser)
                         self.score = self.score + 1
-                if (The_enemy.detect_collision(The_laser)):
-                    self.enemy_list.remove(The_enemy)
-                    self.laser_list.remove(The_laser)
-        for The_enemy in self.enemy_list:
+
     def game_over(self):
         Create_Screens.scoreboard(self.score, self.font, self.screen)
         
     def game_over(self):
         print("you lose")
+        #self.draw()
         
+    def draw_everything(self):
+        self.draw_stuff.draw_all(self.background, self.player1, self.screen, self.enemy_list, self.laser_list)
+        self.draw_stuff.show_score(self.screen, self.score)
 
-            self.draw()
+    def enemy_creation(self):
+        if not self.enemy_list:
+            for i in range(12):
+                self.enemy_list.append(Entity_Class.Enemy(random.randint(0, 735), random.randint(50, 150), self.enemy_speed))
+            self.enemy_speed += 0.1
+            
+    def mainLoop(self):
         while self.run:
             self.collision_detection()
-            Create_Screens.draw_all(self, self.background, self.player1, self.screen, self.enemy_list, self.laser_list)
+            self.draw_everything()
             self.event_manager()
             self.update_Movement()
             
@@ -173,16 +183,6 @@ class Game:
             pygame.display.flip()
         pygame.quit()
 
-    def draw(self):
-        self.draw_stuff.draw_all(self.background, self.player1, self.screen, self.enemy_list, self.laser_list)
-        self.draw_stuff.show_score(self.screen, self.score)
-
-    def enemy_creation(self):
-        if not self.enemy_list:
-            for i in range(12):
-                self.enemy_list.append(Entity_Class.Enemy(random.randint(0, 735), random.randint(50, 150), self.enemy_speed))
-            self.enemy_speed += 0.1
-            
             
 #creates obj of class to run game
 if __name__ == "__main__":
