@@ -1,14 +1,10 @@
 import Entity_Class
 import pygame
-from threading import Timer
 import random
-import math
 from pygame import mixer
 from Draw_Class import Create_Screens
 
 # todo list
-# fix movement bug (jack)
-# collision, done (hector)
 #
 # need to create different "screens" to draw, and change screens depending on game state
 # i.e. game over = screen3, game = screen2, title screen = screen1
@@ -46,14 +42,15 @@ class Game:
         self.player_list = [] # i want to throw players in a list as well, to have players 1, 2, 3, 4
         self.player1 = Entity_Class.Player(370, 480)
         self.enemy_list = []
-        self.enemy_creation()
         self.laser_list = []
+        self.draw_stuff = Create_Screens()
 
         self.movement_list = [False, False, False, False] # [left, right, up, down] if true move in direction :)
-        self.player_speed = 2
+        self.player_speed = 0.7
+        self.enemy_speed = 0.3
 
         self.run = True # bool for main loop to start
-        laser_state = True
+        self.laser_state = True
         
         self.mainLoop() # runs the main loop function
 
@@ -74,11 +71,8 @@ class Game:
     
     # checks for the keypresses
     def event_manager(self):
-
         # trying to get a delay to work for laser
         laser_state = True
-
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.run = False
@@ -110,6 +104,7 @@ class Game:
                     self.movement_list[2] = False
                 if event.key == pygame.K_DOWN:
                     self.movement_list[3] = False
+           
 
     def update_Movement(self):
         #fixed movement bug, pretty ugly code tho..
@@ -145,27 +140,26 @@ class Game:
         for lasers in self.laser_list:
             lasers.laser_move()
 
-    def collision_detection(self):
-        for The_enemy in self.enemy_list: # collision: between enemies and lasers
-            for The_laser in self.laser_list:
                 if The_enemy in self.enemy_list: # check in the enemy exists in enemy list
                     if (The_enemy.detect_collision(The_laser)):
                         self.enemy_list.remove(The_enemy)
                         self.laser_list.remove(The_laser)
                         self.score = self.score + 1
+                if (The_enemy.detect_collision(The_laser)):
+                    self.enemy_list.remove(The_enemy)
+                    self.laser_list.remove(The_laser)
         for The_enemy in self.enemy_list:
-            if (The_enemy.detect_collision(self.player1)):
-                self.game_over() # need to create game over function
-                
     def game_over(self):
         Create_Screens.scoreboard(self.score, self.font, self.screen)
         
+    def game_over(self):
+        print("you lose")
+        
 
-    def mainLoop(self):
+            self.draw()
         while self.run:
             self.collision_detection()
             Create_Screens.draw_all(self, self.background, self.player1, self.screen, self.enemy_list, self.laser_list)
-            Create_Screens.show_score(self.score, self.font, self.screen)
             self.event_manager()
             self.update_Movement()
             
@@ -179,10 +173,15 @@ class Game:
             pygame.display.flip()
         pygame.quit()
 
+    def draw(self):
+        self.draw_stuff.draw_all(self.background, self.player1, self.screen, self.enemy_list, self.laser_list)
+        self.draw_stuff.show_score(self.screen, self.score)
 
     def enemy_creation(self):
-        for i in range(12):
-            self.enemy_list.append(Entity_Class.Enemy(random.randint(0, 735), random.randint(50, 150)))
+        if not self.enemy_list:
+            for i in range(12):
+                self.enemy_list.append(Entity_Class.Enemy(random.randint(0, 735), random.randint(50, 150), self.enemy_speed))
+            self.enemy_speed += 0.1
             
             
 #creates obj of class to run game

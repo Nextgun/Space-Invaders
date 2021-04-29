@@ -13,8 +13,9 @@ from pygame import mixer
 
 
 class Create_Screens(object):
-    def __init__(self, width=800, height=600, font_type='FreeSansBold.ttf'):
-        pass
+    def __init__(self, width=800, height=600, font_type='assets/FreeSansBold.ttf'):
+        self.over_font = pygame.font.Font(font_type, 84)
+        self.font = pygame.font.Font(font_type, 28)
 
     def draw_enemies(screen, enemy_list):
         for enemies in enemy_list: # draws each enemy 
@@ -26,8 +27,8 @@ class Create_Screens(object):
 
     
         # draws background and entities!
-    def draw_all(game, background, el_player, screen, enemy_list, laser_list):
-        game.screen.blit(background, (0, 0)) # draws screen
+    def draw_all(self, background, el_player, screen, enemy_list, laser_list):
+        screen.blit(background, (0, 0))
         el_player.draw(screen) # draws player using the entity draw method
         #draw_enemies(screen, enemy_list)
         for enemies in enemy_list: # draws each enemy 
@@ -36,10 +37,10 @@ class Create_Screens(object):
         for lasers in laser_list: # draws each laser
             lasers.draw(screen)
 
-
-    def show_score(score_value, font, screen):
-        score = font.render("Score :" + str(score_value), True, (255, 255, 255))
+    def show_score(self, screen, score_value):
+        score = self.font.render("Score :" + str(score_value), True, (255, 255, 255))
         screen.blit(score, (10, 10))
+
 
     def scoreboard(score_value, font, screen):
         score = font.render("Score :" + str(score_value), True, (255, 255, 255))

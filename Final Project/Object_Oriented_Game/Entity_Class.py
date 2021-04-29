@@ -42,22 +42,24 @@ class Player(Entity):
         super().__init__(entityX, entityY, image='assets/plane.png', health=3,  entityX_change=0, entityY_change=0, size=30)
         
     def movement(self): # moves player
-        self.entityX += self.entityX_change
-        self.entityY += self.entityY_change
-        if self.entityX <= 0:
-            self.entityX = 0
-        elif self.entityX >= 736:
-            self.entityX = 736
-        if self.entityY <= 0:
-            self.entityY = 0
-        elif self.entityY >= 536:
-            self.entityY = 536
+        if self.entityX + self.entityX_change <= 0:
+            self.entityX == 0
+        elif self.entityX + self.entityX_change >= 736:
+            self.entityX == 736
+        else:
+            self.entityX += self.entityX_change
 
+        if self.entityY + self.entityY_change <= 0:
+            self.entityY == 0
+        elif self.entityY + self.entityY_change + self.image.get_height() >= 600:
+            self.entityY == 600
+        else:
+            self.entityY += self.entityY_change
 
 class Enemy(Entity):
-    def __init__(self, entityX, entityY): 
+    def __init__(self, entityX, entityY, enemy_speed): 
         #   initializes the entity attributes
-        Entity.__init__(self, entityX, entityY, image='assets/tie.png', health=1,  entityX_change=0.3, entityY_change=20, size=50)
+        Entity.__init__(self, entityX, entityY, image='assets/tie.png', health=1,  entityX_change=enemy_speed, entityY_change=20, size=50)
 
 class Laser(Entity):
     def __init__(self, entityX, entityY):
