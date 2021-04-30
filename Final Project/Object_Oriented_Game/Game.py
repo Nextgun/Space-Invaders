@@ -5,6 +5,7 @@ from pygame import mixer
 from Draw_Class import Create_Screens
 
 # todo list
+# music not working come back later
 #
 # need to create different "screens" to draw, and change screens depending on game state
 # i.e. game over = screen3, game = screen2, title screen = screen1
@@ -147,14 +148,18 @@ class Game:
                     if (The_enemy.detect_collision(The_laser)):
                         self.enemy_list.remove(The_enemy)
                         self.laser_list.remove(The_laser)
-                        self.score = self.score + 1
+                        self.score = self.score + 1 
+        for The_enemy in self.enemy_list: 
+            if The_enemy.detect_collision(self.player1): 
+                self.game_over()
 
-    def game_over(self):
-        Create_Screens.scoreboard(self.score, self.font, self.screen)
+
+        
         
     def game_over(self):
         print("you lose")
-        #self.draw()
+        #self.draw() 
+        self.draw_stuff.scoreboard( self.screen, self.score)
         
     def draw_everything(self):
         self.draw_stuff.draw_all(self.background, self.player1, self.screen, self.enemy_list, self.laser_list)
