@@ -53,14 +53,23 @@ class Create_Screens(object):
         over_text = self.over_font.render("GAME OVER!", True, (10, 240, 13))
         screen.blit(over_text, (x, y))
 
-    def scoreboard(self, screen, score_value):
-        x = self.width * 0.375
+    def add_score(self, name, score): # here i need to write new score into score info file
+        new_score = name +" "+ str(score) 
+        f = open("Score_info", "a")
+        f.write(new_score + "\n")
+        f.close()
+
+    def scoreboard(self, screen, score_value): 
+        x = self.width * 0.015625
         y = self.height * 0.33333333
         open_file = open("Score_info",'r')
         for score in open_file:
             score_text = self.font.render(score, True, (255, 255, 255))
-            
-            
             screen.blit(score_text, (x, y))
+            y = y + 30 
+print('yay') 
 
-print('yay')
+
+# stop score info loop 4/30/21 - c 
+# figure out hidden character 4/30/21 - c 
+# 

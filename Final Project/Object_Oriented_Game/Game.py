@@ -2,7 +2,8 @@ import Entity_Class
 import pygame
 import random
 from pygame import mixer
-from Draw_Class import Create_Screens
+from Draw_Class import Create_Screens 
+import easygui
 
 # todo list
 # music not working come back later
@@ -177,10 +178,10 @@ class Game:
     def mainLoop(self):
         while self.playingGame == True:
             if self.GameOver == False:
-            #    if self.player_name == "default":
-            #        self.player_name = input ("ur name")
-                # courtney does this
-                # self.name = easygui.enterbox("whats your name?")
+                if self.player_name == "default":
+                    self.player_name = easygui.enterbox("Enter player name: ")
+                
+                 
                 self.collision_detection()
                 self.draw_everything()
                 self.event_manager()
@@ -195,8 +196,8 @@ class Game:
 
                 pygame.display.flip()
 
-            if self.GameOver == True:
-                # write new score into score info 
+            if self.GameOver == True: 
+                self.draw_stuff.add_score (self.player_name, self.score)  # write new score into score info 
                 self.event_manager()
                 self.draw_everything()
                 self.draw_stuff.end_screen(self.background, self.screen, self.score)
