@@ -54,10 +54,13 @@ class Create_Screens(object):
         screen.blit(over_text, (x, y))
 
     def add_score(self, name, score): # here i need to write new score into score info file
-        new_score = name +" "+ str(score) 
-        f = open("Score_info", "a")
-        f.write(new_score + "\n")
-        f.close()
+        j = "no"
+        if j == "no":
+            new_score = name + " " + str(score) 
+            f = open("Score_info", "a")
+            f.write(new_score + "\n")
+            f.close()
+            j = "yes"
 
     def scoreboard(self, screen, score_value): 
         x = self.width * 0.015625
@@ -67,9 +70,28 @@ class Create_Screens(object):
             score_text = self.font.render(score, True, (255, 255, 255))
             screen.blit(score_text, (x, y))
             y = y + 30 
+
+    def average(self, screen):
+        open_file = open("Score_info", 'r')
+        The_List = []
+        for score in open_file:
+            The_List.append(score)
+            print(score)
+        for score in The_List:
+            Split_List = score.split(" ") # splice in every space, to seperatee items 
+        List_size = # write code to find out list size
+        for i in range (List_size, 0, -2):
+            Split_List.remove(i)
+        # loop through list and remove every odd numbered item , leaves us with only score
+        # wiht new list create average
+
+
+
+
+
+
 print('yay') 
 
 
-# stop score info loop 4/30/21 - c 
-# figure out hidden character 4/30/21 - c 
+# figure out hidden character in the scoreinfo file 4/30/21 - c 
 # 

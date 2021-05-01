@@ -155,6 +155,7 @@ class Game:
                         self.score = self.score + 1 
         for The_enemy in self.enemy_list: 
             if The_enemy.detect_collision(self.player1): 
+                self.draw_stuff.add_score (self.player_name, self.score)  # write new score into score info 
                 self.game_over()
 
 
@@ -197,7 +198,8 @@ class Game:
                 pygame.display.flip()
 
             if self.GameOver == True: 
-                self.draw_stuff.add_score (self.player_name, self.score)  # write new score into score info 
+                
+                self.draw_stuff.average(self.screen)
                 self.event_manager()
                 self.draw_everything()
                 self.draw_stuff.end_screen(self.background, self.screen, self.score)

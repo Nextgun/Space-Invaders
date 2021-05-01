@@ -16,7 +16,7 @@ class Entity(object):
         self.entityY_change = entityY_change
         self.size = size
 
-    def detect_collision(self, other):
+    def detect_collision(self, other): 
         if (other.entityX >= self.entityX and other.entityX < (self.entityX + self.size)) or (self.entityX >= other.entityX and self.entityX < (other.entityX + other.size)):
             if (other.entityY >= self.entityY and other.entityY < (self.entityY + self.size)) or (self.entityY >= other.entityY and self.entityY < (other.entityY +other.size)):
                 return True
@@ -72,9 +72,6 @@ class Laser(Entity):
     def laser_move(self):
         self.entityY -= self.entityY_change
         
-
-
-
     def shoot_laser(self, playerX, playerY):
         self.laser1.shoot_laser(self.player1.entityX, self.player1.entityY)
         pass
