@@ -16,6 +16,8 @@ class Create_Screens(object):
     def __init__(self, width=800, height=600, font_type='assets/FreeSansBold.ttf'):
         self.over_font = pygame.font.Font(font_type, 84)
         self.font = pygame.font.Font(font_type, 28)
+        self.width = 800
+        self.height = 600
 
     def draw_enemies(screen, enemy_list):
         for enemies in enemy_list: # draws each enemy 
@@ -42,11 +44,23 @@ class Create_Screens(object):
         screen.blit(score, (10, 10))
 
 
-    def scoreboard(self, screen, score_value):
+    def end_screen(self, background, screen, score_value):
+        screen.blit(background, (0, 0))
         score = self.font.render("Score :" + str(score_value), True, (255, 255, 255))
         screen.blit(score, (100, 100))
+        x = self.width * 0.25
+        y = self.height * 0.16666667
         over_text = self.over_font.render("GAME OVER!", True, (10, 240, 13))
-        screen.blit(over_text, (170, 300))
-        #score_data = 
+        screen.blit(over_text, (x, y))
+
+    def scoreboard(self, screen, score_value):
+        x = self.width * 0.375
+        y = self.height * 0.33333333
+        open_file = open("Score_info",'r')
+        for score in open_file:
+            score_text = self.font.render(score, True, (255, 255, 255))
+            
+            
+            screen.blit(score_text, (x, y))
 
 print('yay')

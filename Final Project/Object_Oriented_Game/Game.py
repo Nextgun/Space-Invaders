@@ -39,6 +39,7 @@ class Game:
 
         #object creation
         self.score = 0
+        self.player_name = "default"
 
         self.player_list = [] # i want to throw players in a list as well, to have players 1, 2, 3, 4
         self.player1 = Entity_Class.Player(370, 480)
@@ -47,10 +48,12 @@ class Game:
         self.draw_stuff = Create_Screens()
 
         self.movement_list = [False, False, False, False] # [left, right, up, down] if true move in direction :)
-        self.player_speed = 0.7
+        self.player_speed = 1.5
         self.enemy_speed = 0.3
 
-        self.run = True # bool for main loop to start
+        self.playingGame = True # bool for main loop to start
+        self.GameOver = False
+
         self.laser_state = True
         
         self.mainLoop() # runs the main loop function
@@ -76,7 +79,7 @@ class Game:
         laser_state = True
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.run = False
+                self.GameOver = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     self.movement_list[0] = True
@@ -158,8 +161,8 @@ class Game:
         
     def game_over(self):
         print("you lose")
-        #self.draw() 
-        self.draw_stuff.scoreboard( self.screen, self.score)
+        print(self.score)
+        self.GameOver = True
         
     def draw_everything(self):
         self.draw_stuff.draw_all(self.background, self.player1, self.screen, self.enemy_list, self.laser_list)
@@ -172,20 +175,33 @@ class Game:
             self.enemy_speed += 0.1
             
     def mainLoop(self):
-        while self.run:
-            self.collision_detection()
-            self.draw_everything()
-            self.event_manager()
-            self.update_Movement()
+        while self.playingGame == True:
+            if self.GameOver == False:
+            #    if self.player_name == "default":
+            #        self.player_name = input ("ur name")
+                # courtney does this
+                # self.name = easygui.enterbox("whats your name?")
+                self.collision_detection()
+                self.draw_everything()
+                self.event_manager()
+                self.update_Movement()
             
-            if not self.enemy_list: # checks if enemy list is empty
-                # write some code here to either spawn more enemies or make them harder to kill or both.
-                self.enemy_creation() # creates new enemies
-            for The_laser in self.laser_list:
-                if The_laser.entityY < 0:
-                    self.laser_list.remove(The_laser)
+                if not self.enemy_list: # checks if enemy list is empty
+                    # write some code here to either spawn more enemies or make them harder to kill or both.
+                    self.enemy_creation() # creates new enemies
+                for The_laser in self.laser_list:
+                    if The_laser.entityY < 0:
+                        self.laser_list.remove(The_laser)
 
-            pygame.display.flip()
+                pygame.display.flip()
+
+            if self.GameOver == True:
+                # write new score into score info 
+                self.event_manager()
+                self.draw_everything()
+                self.draw_stuff.end_screen(self.background, self.screen, self.score)
+                self.draw_stuff.scoreboard(self.screen, self.score)
+                pygame.display.flip()
         pygame.quit()
 
             
