@@ -93,9 +93,19 @@ class Create_Screens(object):
         x = self.width * 0.015625
         y = self.height * 0.015625
         text = self.font.render("Number of Enemies Killed: " + str(sum), True, (255, 255, 255))
-        screen.blit(text, (x,y))
-
-
+        screen.blit(text, (x,y)) 
+    def doWhile(self, screen):
+        while True: 
+            num = 0 
+         # write code to draw amount of enemies killed
+            x = self.width * 0.015625
+            y = self.height * 0.015625
+            text = self.font.render("Counting test " + str(num), True, (255, 255, 255))
+            screen.blit(text, (x,y)) 
+            num += 1 
+            if num > 3: 
+                break 
+          
 
 
 

@@ -214,6 +214,7 @@ class Game:
 
 
                 self.draw_stuff.average(self.screen) # testing this line
+                #self.draw_stuff.doWhile(self.screen)
                 self.draw_stuff.sumOfEnemies(self.screen, self.enemieskilled)
                 
                 pygame.display.flip()
