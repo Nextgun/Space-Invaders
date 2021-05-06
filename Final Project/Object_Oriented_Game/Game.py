@@ -1,6 +1,8 @@
 import Entity_Class
 import pygame
 import random
+import threading
+import time
 from pygame import mixer
 from Draw_Class import Create_Screens 
 import easygui
@@ -57,19 +59,25 @@ class Game:
         self.playingGame = True # bool for main loop to start
         self.GameOver = False
 
-        self.laser_state = False
+        self.lastBulletFired = 0
         
         self.mainLoop() # runs the main loop function
 
+        # threading
+        # threading is working, but i can still spam, now the goal is 
+        # while space = pressed
+        #    shoot a laser every 1 seconds
+        #    if space = unpressed
+        #       break    
+    def thread(self):
+        t = threading.Timer(2, self.shoot_laser, args =(self.laser_list, self.player1.entityX, self.player1.entityY))
+        t.start()
     
-    def read_file(self):
-        # read a file into the game
-        list = []
-        pass
-   
-    def write_file(self):
-        # write the new score into file
-        pass
+    def shoot_laser(self, laserList, playerX, playerY):
+        laserList.append(Entity_Class.Laser(playerX, playerY))
+        self.lastBulletFired = time.time()
+
+        
         
         
     # trying to get a delay to work for laser
@@ -83,6 +91,8 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.playingGame == False
+            
+           
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.playingGame == False
@@ -94,9 +104,13 @@ class Game:
                     self.movement_list[2] = True
                 if event.key == pygame.K_DOWN:
                     self.movement_list[3] = True
-                if event.key == pygame.K_SPACE:
+        #        if event.key == pygame.K_SPACE:
                     # create a do while loop
-                    self.laser_list.append(Entity_Class.Laser(self.player1.entityX, self.player1.entityY))
+                    
+        #            if time.time() > self.lastBulletFired + 1:
+        #                self.shoot_laser(self.laser_list, self.player1.entityX, self.player1.entityY)
+                    
+                    
                     # i want to cry
                     #if laser_state == True:
                         #(self.laser_list.append(Entity_Class.Laser(self.player1.entityX, self.player1.entityY)))
@@ -112,6 +126,8 @@ class Game:
                     self.movement_list[2] = False
                 if event.key == pygame.K_DOWN:
                     self.movement_list[3] = False
+                if event.key == pygame.K_SPACE:
+                    self.laser_state = False
            
 
     def update_Movement(self):
@@ -189,6 +205,14 @@ class Game:
                 if self.player_name == "default":
                     self.player_name = easygui.enterbox("Enter player name: ")
                 
+                # im a fucking badass (hector)
+                pressed = pygame.key.get_pressed()[pygame.K_SPACE]
+                if pressed == True:
+                    if time.time() > self.lastBulletFired + 1:
+                        self.shoot_laser(self.laser_list, self.player1.entityX, self.player1.entityY)
+
+      #          if self.laser_state == True:
+      #              self.thread()
                  
                 self.collision_detection()
                 self.draw_everything()

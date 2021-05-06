@@ -72,9 +72,7 @@ class Laser(Entity):
     def laser_move(self):
         self.entityY -= self.entityY_change
         
-    def shoot_laser(self, playerX, playerY):
-        self.laser1.shoot_laser(self.player1.entityX, self.player1.entityY)
-        pass
+   
             
     
         
