@@ -48,6 +48,8 @@ class Game:
         self.laser_list = []
         self.draw_stuff = Create_Screens()
 
+        self.enemieskilled = []
+
         self.movement_list = [False, False, False, False] # [left, right, up, down] if true move in direction :)
         self.player_speed = 1.5
         self.enemy_speed = 0.3
@@ -55,7 +57,7 @@ class Game:
         self.playingGame = True # bool for main loop to start
         self.GameOver = False
 
-        self.laser_state = True
+        self.laser_state = False
         
         self.mainLoop() # runs the main loop function
 
@@ -80,8 +82,10 @@ class Game:
         laser_state = True
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.GameOver = True
+                self.playingGame == False
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.playingGame == False
                 if event.key == pygame.K_LEFT:
                     self.movement_list[0] = True
                 if event.key == pygame.K_RIGHT:
@@ -91,9 +95,8 @@ class Game:
                 if event.key == pygame.K_DOWN:
                     self.movement_list[3] = True
                 if event.key == pygame.K_SPACE:
-                    
+                    # create a do while loop
                     self.laser_list.append(Entity_Class.Laser(self.player1.entityX, self.player1.entityY))
-
                     # i want to cry
                     #if laser_state == True:
                         #(self.laser_list.append(Entity_Class.Laser(self.player1.entityX, self.player1.entityY)))
@@ -153,6 +156,7 @@ class Game:
                         self.enemy_list.remove(The_enemy)
                         self.laser_list.remove(The_laser)
                         self.score = self.score + 1 
+                        self.enemieskilled.append(1)
         for The_enemy in self.enemy_list: 
             if The_enemy.detect_collision(self.player1): 
                 self.draw_stuff.add_score (self.player_name, self.score)  # write new score into score info 
@@ -171,10 +175,13 @@ class Game:
         self.draw_stuff.show_score(self.screen, self.score)
 
     def enemy_creation(self):
-        if not self.enemy_list:
-            for i in range(12):
-                self.enemy_list.append(Entity_Class.Enemy(random.randint(0, 735), random.randint(50, 150), self.enemy_speed))
-            self.enemy_speed += 0.1
+        for i in range(12):
+            self.enemy_list.append(Entity_Class.Enemy
+                                    (random.randint(0, 735),
+                                    random.randint(50, 150), 
+                                    self.enemy_speed))
+        self.enemy_speed += 0.3
+            
             
     def mainLoop(self):
         while self.playingGame == True:
@@ -187,10 +194,10 @@ class Game:
                 self.draw_everything()
                 self.event_manager()
                 self.update_Movement()
-            
+                
                 if not self.enemy_list: # checks if enemy list is empty
-                    # write some code here to either spawn more enemies or make them harder to kill or both.
                     self.enemy_creation() # creates new enemies
+
                 for The_laser in self.laser_list:
                     if The_laser.entityY < 0:
                         self.laser_list.remove(The_laser)
@@ -204,6 +211,11 @@ class Game:
                 self.draw_everything()
                 self.draw_stuff.end_screen(self.background, self.screen, self.score)
                 self.draw_stuff.scoreboard(self.screen, self.score)
+
+
+                self.draw_stuff.average(self.screen) # testing this line
+                self.draw_stuff.sumOfEnemies(self.screen, self.enemieskilled)
+                
                 pygame.display.flip()
         pygame.quit()
 

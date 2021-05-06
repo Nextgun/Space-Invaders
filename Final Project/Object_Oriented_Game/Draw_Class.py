@@ -3,6 +3,7 @@
 
 import pygame
 from pygame import mixer
+pygame.font.init()
 #from game import Game # import game the object not game the class
 
 # draw score
@@ -13,9 +14,9 @@ from pygame import mixer
 
 
 class Create_Screens(object):
-    def __init__(self, width=800, height=600, font_type='assets/FreeSansBold.ttf'):
-        self.over_font = pygame.font.Font(font_type, 84)
-        self.font = pygame.font.Font(font_type, 28)
+    def __init__(self, width=800, height=600):
+        self.over_font = pygame.font.Font('assets/FreeSansBold.ttf', 84)
+        self.font = pygame.font.Font('assets/FreeSansBold.ttf', 28)
         self.width = 800
         self.height = 600
 
@@ -46,21 +47,20 @@ class Create_Screens(object):
 
     def end_screen(self, background, screen, score_value):
         screen.blit(background, (0, 0))
-        score = self.font.render("Score :" + str(score_value), True, (255, 255, 255))
-        screen.blit(score, (100, 100))
-        x = self.width * 0.25
+        x = self.width * 0.16666667
         y = self.height * 0.16666667
         over_text = self.over_font.render("GAME OVER!", True, (10, 240, 13))
         screen.blit(over_text, (x, y))
 
-    def add_score(self, name, score): # here i need to write new score into score info file
-        j = "no"
-        if j == "no":
-            new_score = name + " " + str(score) 
-            f = open("Score_info", "a")
-            f.write(new_score + "\n")
-            f.close()
-            j = "yes"
+    def add_score(self, name, score): # here i need to write new score into files
+        new_score = name + " " + str(score) 
+        f = open("Score_info", "a") # opens file that contains name and score data
+        f.write(new_score +"                                                                                                                                                                  "+ "\n")
+        f.close()
+
+        f = open("Just_score", "a") # opens file that contains score data
+        f.write(str(score) + "\n")
+        f.close()
 
     def scoreboard(self, screen, score_value): 
         x = self.width * 0.015625
@@ -72,26 +72,34 @@ class Create_Screens(object):
             y = y + 30 
 
     def average(self, screen):
-        open_file = open("Score_info", 'r')
-        The_List = []
+        open_file = open("Just_score", 'r')
+        ScoresList = []
         for score in open_file:
-            The_List.append(score)
-            print(score)
-        for score in The_List:
-            Split_List = score.split(" ") # splice in every space, to seperatee items 
-        List_size = # write code to find out list size
-        for i in range (List_size, 0, -2):
-            Split_List.remove(i)
-        # loop through list and remove every odd numbered item , leaves us with only score
-        # wiht new list create average
+            ScoresList.append(int(score))
+        # write code to calculate average
+        Average = sum(ScoresList) / len(ScoresList)
+        int(Average)
+        x = self.width * 0.015625
+        y = self.height * 0.015625
+        text = self.font.render("Average Score: " + str(Average), True, (255, 255, 255))
+        screen.blit(text, (x,y+30))
 
+
+    def sumOfEnemies(self, screen, enemyKilled):
+        sum = 0
+        for enemy in enemyKilled:
+            sum = sum + enemy
+        # write code to draw amount of enemies killed
+        x = self.width * 0.015625
+        y = self.height * 0.015625
+        text = self.font.render("Number of Enemies Killed: " + str(sum), True, (255, 255, 255))
+        screen.blit(text, (x,y))
 
 
 
 
 
 print('yay') 
-
 
 # figure out hidden character in the scoreinfo file 4/30/21 - c 
 # 
