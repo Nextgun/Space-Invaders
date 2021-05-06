@@ -52,6 +52,8 @@ class Create_Screens(object):
         over_text = self.over_font.render("GAME OVER!", True, (10, 240, 13))
         screen.blit(over_text, (x, y))
 
+        # 1.be able to read the file  into and  be able
+        # to write the contents of a file to output monitor.
     def add_score(self, name, score): # here i need to write new score into files
         new_score = name + " " + str(score) 
         f = open("Score_info", "a") # opens file that contains name and score data
@@ -71,6 +73,7 @@ class Create_Screens(object):
             screen.blit(score_text, (x, y))
             y = y + 30 
 
+        # 3. Calculate the average of the number.
     def average(self, screen):
         open_file = open("Just_score", 'r')
         ScoresList = []
@@ -84,7 +87,7 @@ class Create_Screens(object):
         text = self.font.render("Average Score: " + str(Average), True, (255, 255, 255))
         screen.blit(text, (x,y+30))
 
-
+        # 2.  Sum the contents of an array
     def sumOfEnemies(self, screen, enemyKilled):
         sum = 0
         for enemy in enemyKilled:
@@ -94,17 +97,7 @@ class Create_Screens(object):
         y = self.height * 0.015625
         text = self.font.render("Number of Enemies Killed: " + str(sum), True, (255, 255, 255))
         screen.blit(text, (x,y)) 
-    def doWhile(self, screen):
-        while True: 
-            num = 0 
-         # write code to draw amount of enemies killed
-            x = self.width * 0.015625
-            y = self.height * 0.015625
-            text = self.font.render("Counting test " + str(num), True, (255, 255, 255))
-            screen.blit(text, (x,y)) 
-            num += 1 
-            if num > 3: 
-                break 
+
           
 
 

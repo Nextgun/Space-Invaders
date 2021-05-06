@@ -7,6 +7,7 @@ import pygame
 # use to create sub-classes in player and enemy
 
 class Entity(object):
+    # 8. Use parameters in functions. 
     def __init__(self, entityX, entityY, image, health,  entityX_change, entityY_change, size): #   all of the attributes for entities
         self.image = pygame.image.load(image)
         self.health = health
@@ -16,6 +17,8 @@ class Entity(object):
         self.entityY_change = entityY_change
         self.size = size
 
+        # 7 Create different types of functions.  void or return value
+        # returns boolean value of true or false
     def detect_collision(self, other): 
         if (other.entityX >= self.entityX and other.entityX < (self.entityX + self.size)) or (self.entityX >= other.entityX and self.entityX < (other.entityX + other.size)):
             if (other.entityY >= self.entityY and other.entityY < (self.entityY + self.size)) or (self.entityY >= other.entityY and self.entityY < (other.entityY +other.size)):

@@ -191,6 +191,7 @@ class Game:
         self.draw_stuff.show_score(self.screen, self.score)
 
     def enemy_creation(self):
+        # 5.  Create a for loop
         for i in range(12):
             self.enemy_list.append(Entity_Class.Enemy
                                     (random.randint(0, 735),
@@ -198,7 +199,7 @@ class Game:
                                     self.enemy_speed))
         self.enemy_speed += 0.3
             
-            
+         # 4. Create while loops   
     def mainLoop(self):
         while self.playingGame == True:
             if self.GameOver == False:
